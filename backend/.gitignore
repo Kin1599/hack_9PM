@@ -1,0 +1,37 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+
+# Virtual environments
+venv/
+.venv/
+
+# Env files
+.env
+src/.env
+
+# Logs
+*.log
+logs/
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Database
+*.db
+*.sqlite3
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Static files
+staticfiles/
+migrations/

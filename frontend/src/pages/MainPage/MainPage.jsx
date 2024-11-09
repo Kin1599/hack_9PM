@@ -10,7 +10,11 @@ function MainPage() {
 
   return (
     <div className={cl.mainPage}>
-      <MapComponent fetchData={server.getHousesData}/>
+      <MapComponent 
+        fetchHouseData={server.getHousesData} 
+        fetchStreetData={server.getStreetData} 
+        fetchMetroData={server.getMetroStationsData}
+      />
     </div>
   )
 }

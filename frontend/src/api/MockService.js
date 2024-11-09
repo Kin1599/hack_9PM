@@ -7,7 +7,8 @@ export default class MockServer{
     }
     
     //* Функция для получения данных о домах
-    static async getHousesData(swLat, swLng, neLat, neLng) { 
+    static async getHousesData(bounds, stage) { 
+        const {swLat, swLng, neLat, neLng} = bounds;
         const response = await fetch(`/api/data?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`);
         const data = await response.json();
         return data.map(item => ({
@@ -16,11 +17,18 @@ export default class MockServer{
         }));
       };
       
-    
+    //* Функция для получения данных о станциях метро
+    static async getMetroStationsData(bounds, stage){
+      
+    }
 
+    //* Функция для получения данных об автобусных остановках
+    static async getBusStationsData(bounds, stage){
+      
+    }
 
-    //* Функция для получения данных карты
-    static async getMap(){
+    //* Функция для получения изменений карты
+    static async getChangeMap(stage){
         
     }
 }

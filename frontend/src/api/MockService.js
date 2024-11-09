@@ -1,30 +1,26 @@
+import MockData from "../data/data";
+
 export default class MockServer{
     //* Здесь можно писать фальшивые функции
 
     //* Функция для получения данных об улицах
     static async getStreetData(){
-
+      return MockData.streetData;
     }
     
     //* Функция для получения данных о домах
     static async getHousesData(bounds, stage) { 
-        const {swLat, swLng, neLat, neLng} = bounds;
-        const response = await fetch(`/api/data?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`);
-        const data = await response.json();
-        return data.map(item => ({
-          coordinates: [item.latitude, item.longitude],
-          properties: { hintContent: item.name }
-        }));
-      };
+      return MockData.houseData;
+    };
       
     //* Функция для получения данных о станциях метро
-    static async getMetroStationsData(bounds, stage){
-      
+    static async getMetroStationsData(bounds){
+      return MockData.subwayExits;
     }
 
     //* Функция для получения данных об автобусных остановках
-    static async getBusStationsData(bounds, stage){
-      
+    static async getBusStationsData(bounds){
+      return MockData.busStations;
     }
 
     //* Функция для получения изменений карты

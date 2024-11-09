@@ -14,6 +14,7 @@ function MainPage() {
         fetchHouseData={server.getHousesData} 
         fetchStreetData={server.getStreetData} 
         fetchMetroData={server.getMetroStationsData}
+        fetchBusData={server.getBusStationsData}
       />
     </div>
   )

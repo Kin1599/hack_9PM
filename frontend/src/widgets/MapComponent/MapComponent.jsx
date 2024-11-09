@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import cl from './MapComponent.module.scss';
-import { YMaps, Map, Placemark, GeoObject } from '@pbe/react-yandex-maps';
+import { YMaps, Map, GeoObject } from '@pbe/react-yandex-maps';
 import danger from '../../shared/assets/danger.svg'
 import layer from '../../shared/assets/layer.svg'
 
-function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData }) {
+function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBusData }) {
   const mapContainerRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [houses, setHouses] = useState([]);
   const [streets, setStreets] = useState([]);
-  const [metroStations, setMetroStations] = useState([]);
+  const [metroExits, setMetroExits] = useState([]);
+  const [busStations, setBusStations] = useState([]);
   const [currentStage, setCurrentStage] = useState('stage1');
   const [isProblem, setIsProblem] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -34,17 +35,19 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData }) {
   const handleBoundsChange = async () => {
     if (mapInstance){
       const bounds = mapInstance.getBounds();
-      console.log(bounds);
       
       if (bounds) {
         if(bounds){
           const houseData = await fetchHouseData(bounds, currentStage);
           const streetsData = await fetchStreetData(bounds, currentStage);
-          const metroData = await fetchMetroData(bounds, currentStage);
+          const metroData = await fetchMetroData(bounds);
+          const busData = await fetchBusData(bounds);
 
-          setHouses(houseData);
-          setMetroStations(metroData);
-          setStreets(streetsData);
+          console.log(metroData);
+          setHouses(houseData.features);
+          setMetroExits(metroData.features);
+          setStreets(streetsData.features);
+          setBusStations(busData.features);
         }
       }
     }
@@ -58,14 +61,15 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData }) {
       const bounds = mapInstance.getBounds();
 
       if (bounds) {
-        console.log(bounds);
         const housesData = await fetchHouseData(bounds, stage);
         const streetsData = await fetchStreetData(bounds, stage);
         const metroData = await fetchMetroData(bounds, stage);
+        const busData = await fetchBusData(bounds, stage);
 
-        setHouses(housesData);
-        setStreets(streetsData);
-        setMetroStations(metroData);
+        setHouses(housesData.features);
+        setStreets(streetsData.features);
+        setMetroExits(metroData.features);
+        setBusStations(busData.features);
       }
     }
   };
@@ -92,34 +96,47 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData }) {
       {isVisible && (
         <YMaps query={{ apikey: apiKey }}>
           <Map
-            defaultState={{ center: [55.095276, 38.765574], zoom: 13 }}
+            defaultState={{ center: [55.570395, 37.475495], zoom: 15 }}
             width="100%"
             height="100dvh"
             instanceRef={map => setMapInstance(map)}
             onBoundsChange={handleBoundsChange}
           >
-            { houses.map((house, index) => ( 
+           { houses && houses.map((house, index) => ( 
               <GeoObject 
                 key={index} 
-                geometry={{ type: 'Polygon', coordinates: house.coordinates }} 
-                properties={{ balloonContent: house.name }} 
-                options={{ strokeColor: "#ff0000", strokeWidth: 2, fillColor: "#ffcccc" }} 
+                geometry={{ type: house.geometry.type, coordinates: house.geometry.coordinates }} 
+                properties={{ balloonContent: house.properties.name }} 
+                options={{ geodesic: true, strokeColor: "#F008", strokeWidth: 5, fillColor: "#F00833" }} 
               /> 
             ))}
-            { streets.map((street, index) => ( 
+            { streets && streets.map((street, index) => ( 
               <GeoObject 
                 key={index} 
-                geometry={{ type: 'LineString', coordinates: street.coordinates }} 
-                properties={{ balloonContent: street.name }} 
+                geometry={{ type: street.geometry.type, coordinates: street.geometry.coordinates }} 
+                properties={{ balloonContent: street.properties.name }} 
                 options={{ strokeColor: "#0000ff", strokeWidth: 4 }} 
               /> 
             ))}
-            {metroStations.map((station, index) => ( 
-              <Placemark 
+            { metroExits && metroExits.map((metroExit, index) => ( 
+              <GeoObject
                 key={index} 
-                geometry={station.coordinates} 
-                properties={{ balloonContent: station.name }} 
-                options={{ iconColor: "#00ff00" }} 
+                geometry={{type: metroExit.geometry.type, coordinates: metroExit.geometry.coordinates}} 
+                properties={{ 
+                  balloonContent: metroExit.properties.name,
+                  iconContent: metroExit.properties.id,
+                }} 
+                options={{ geodesic: true, iconColor: "#00ff00" }} 
+              /> 
+            ))}
+            { busStations && busStations.map((busStation, index) => ( 
+              <GeoObject
+                key={index} 
+                geometry={{type: busStation.geometry.type, coordinates: busStation.geometry.coordinates}} 
+                properties={{ 
+                  balloonContent: busStation.properties.name,
+                }} 
+                options={{ geodesic: true, iconColor: "#3b83ff" }} 
               /> 
             ))}
           </Map>

@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import cl from './MainPage.module.scss'
 import SendServer from '../../api/Service'
+import MockServer from '../../api/MockService'
+import MapComponent from '../../widgets/MapComponent/MapComponent'
 
 function MainPage() {
 
-    const [pingResponse, setPingResponse] = useState(''); 
-
-    const ping = async () => {
-        const response = await SendServer.getPing();
-        setPingResponse(response);
-    }
-
-    useEffect(() => {
-        ping();
-    }, [])
+    const server = process.env.REACT_APP_MODE === "prod" ? SendServer : MockServer;
 
   return (
     <div className={cl.mainPage}>
-        Тестовая страничка
-        <div>{pingResponse}</div>
+      <MapComponent fetchData={server.getHousesData}/>
     </div>
   )
 }

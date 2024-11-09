@@ -1,79 +1,95 @@
 
+@mixin buttonStyle($width: 40px, $height: 40px, $bg-color: transparent) {
+    width: $width;
+    height: $height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $bg-color;
+    border: none;
+    cursor: pointer;
+
+    &:hover{
+        filter: brightness(0.7);
+    }
+}
+
+@mixin iconStyle($color-filter){
+    width: 40px;
+    height: 40px;
+    filter: $color-filter;
+}
+
+@mixin controlsStyle($bg-color: #FFF, $shadow-color: rgba(0, 0, 0, 0.1), $width: 80px){
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    background-color: $bg-color;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px $shadow-color;
+    width: $width;
+}
+
 .map {
     width: 100%; 
     height: 100vh; 
-    max-width: 100%; 
     overflow: hidden; 
     position: relative;
 
     &__controls{
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        @include controlsStyle();
+
+        > *:not(:last-child){
+            margin-bottom: 10px;
+        }
+    }
+
+    &__mainControls{
         top: 10px;
         right: 10px;
-        z-index: 1000;
-        background-color: #FFF;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 80px;
+    }
 
-        .controls__stage{
-            margin-top: 20px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    &__aiControls{
+        width: 60px;
+        bottom: 30px;
+        right: 10px;
+    }
+
+    .stage__dropdownMenu{
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .dropdownMenu__item{
             background-color: transparent;
             border: none;
-
-            .stage__img{
-                width: 40px;
-                height: 40px;
-                filter: brightness(0) saturate(100%) invert(11%) sepia(44%) saturate(1886%) hue-rotate(204deg) brightness(99%) contrast(92%);
-            }
-        }
-
-        .stage__dropdownMenu{
-            margin-top: 5px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            .dropdownMenu__item{
-                background-color: transparent;
-                border: none;
-                font-size: 15px;
-                cursor: pointer;
-                transition: 0.3s;
-
-                &:hover{
-                    color: #cee3c4;
-                }
-            }
-        }
-
-        .controls__problem{
-            height: 40px;
-            width: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: transparent;
-            border: none;   
+            font-size: 15px;
             cursor: pointer;
+            transition: 0.3s;
 
-            .problem__img{
-                height: 40px;
-                width: 40px;
+            &:hover{
+                color: #cee3c4;
             }
+        }
+    }
 
-            .problem{
-                filter: brightness(0) saturate(100%) invert(41%) sepia(81%) saturate(1925%) hue-rotate(334deg) brightness(91%) contrast(100%);
-            }
+    .controls__button{
+        @include buttonStyle();
+
+        .button__img{
+            @include iconStyle(brightness(0) saturate(100%) invert(11%) sepia(44%) saturate(1886%) hue-rotate(204deg) brightness(99%) contrast(92%));
+        }
+
+        .problem{
+            filter: brightness(0) saturate(100%) invert(41%) sepia(81%) saturate(1925%) hue-rotate(334deg) brightness(91%) contrast(100%);
+        }
+
+        .traffic{
+            filter: brightness(0) saturate(100%) invert(51%) sepia(59%) saturate(427%) hue-rotate(57deg) brightness(100%) contrast(89%);
         }
     }
 }

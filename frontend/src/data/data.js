@@ -449,9 +449,9 @@ export default class MockData{
             {   
                 type: "Feature",
                 properties: {
-                    id: 3,
+                    id: 4,
                     stage: 1,
-                    name: 'Выход 3',
+                    name: 'Выход 4',
                 },
                 geometry: {
                     type: "Point",
@@ -461,9 +461,9 @@ export default class MockData{
             {   
                 type: "Feature",
                 properties: {
-                    id: 4,
+                    id: 3,
                     stage: 1,
-                    name: 'Выход 4',
+                    name: 'Выход 3',
                 },
                 geometry: {
                     type: "Point",

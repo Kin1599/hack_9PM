@@ -25,6 +25,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    right: 10px;
+    top: 10px;
     z-index: 1000;
     background-color: $bg-color;
     padding: 10px;
@@ -33,24 +35,29 @@
     width: $width;
 }
 
-.map {
-    width: 100%; 
-    height: 100vh; 
-    overflow: hidden; 
-    position: relative;
-
-    &__controls{
-        @include controlsStyle();
-
-        > *:not(:last-child){
-            margin-bottom: 10px;
-        }
+.mapControls {
+    @include controlsStyle();
+    > *:not(:last-child){
+        margin-bottom: 10px;
     }
+    
+    .stage__dropdownMenu{
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
-    &__aiControls{
-        width: 60px;
-        bottom: 30px;
-        right: 10px;
+        .dropdownMenu__item{
+            background-color: transparent;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover{
+                color: #cee3c4;
+            }
+        }
     }
 
     .controls__button{
@@ -58,6 +65,14 @@
 
         .button__img{
             @include iconStyle(brightness(0) saturate(100%) invert(11%) sepia(44%) saturate(1886%) hue-rotate(204deg) brightness(99%) contrast(92%));
+        }
+
+        .problem{
+            filter: brightness(0) saturate(100%) invert(41%) sepia(81%) saturate(1925%) hue-rotate(334deg) brightness(91%) contrast(100%);
+        }
+
+        .traffic{
+            filter: brightness(0) saturate(100%) invert(51%) sepia(59%) saturate(427%) hue-rotate(57deg) brightness(100%) contrast(89%);
         }
     }
 }

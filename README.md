@@ -4,11 +4,11 @@ MISIS 9PM in Russia
 
 Team Members:
 
-1. **Дмитрий Коноплянников** - FullStack
-2. **Егор Гречин** –
-3. **Олег Терентьев** –
-4. **Минкаил Толабаев** – 
-5. **Семен Жидков** –
+1. **Дмитрий Коноплянников** - Software Engineer. Student in NUST MISIS University. 
+2. **Егор Гречин** – NLP/RAG engineer at SOGAZ. Student in NUST MISIS University. 
+3. **Олег Терентьев** – Software Engineer at Vusion Studio. Student in NUST MISIS University. 
+4. **Минкаил Толабаев** – Middle Project Manager at Vusion Studio. Student in NUST MISIS University. 
+5. **Семен Жидков** – Risk analyst at BANK DOM.RF. Student in NUST MISIS University. 
 
 Презентация: [тык]()
 

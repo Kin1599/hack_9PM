@@ -1,16 +1,12 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .ping.router import router as ping_router
-from .pedestrian_flow.router import router as pedestrian_router
-from .database import Base, engine
+from ping.router import router as ping_router
+from pedestrian_flow.router import router as pedestrian_router
+from database import Base, engine
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Инициализация базы данных
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title="API",
     root_path="/api"

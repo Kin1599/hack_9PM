@@ -1,5 +1,14 @@
 from fastapi import APIRouter, Query
-from .service import get_houses, get_streets, get_bus_stops, get_metro_exits, get_problem_zones, get_optimal_route, get_stage_changes
+from .service import (
+    get_houses, 
+    get_streets, 
+    get_bus_stops,
+    get_metro_exits, 
+    get_problem_zones, 
+    get_optimal_route, 
+    get_stage_changes,
+    get_traffic_congestion
+    )
 from typing import List
 
 router = APIRouter()
@@ -85,14 +94,20 @@ async def fetch_metro_exits(bounds: str = Query(...)):
     bounds_list = list(map(float, bounds.split(',')))
     return get_metro_exits(bounds_list)
 
+@router.get("/get_traffic_congestion")
+async def fetch_traffic_congestion(bounds: str = Query(...), stage: str = Query(...)):
+    bounds_list = list(map(float, bounds.split(',')))
+    return get_traffic_congestion(bounds_list, stage)
+
 @router.get("/problem_zones")
-async def fetch_problem_zones(bounds: List[float], stage: str):
-    return get_problem_zones(stage)
+async def fetch_problem_zones(bounds: str = Query(...), stage: str = Query(...)):
+    bounds_list = list(map(float, bounds.split(',')))
+    return get_problem_zones(bounds_list, stage)
 
 @router.get("/optimal_route")
 async def fetch_optimal_route(bounds: List[float], targetA: list, targetB: list):
     return get_optimal_route(targetA, targetB)
 
 @router.get("/stage_changes")
-async def fetch_stage_changes(bounds: List[float], stage: str):
+async def fetch_stage_changes(bounds: str = Query(...), stage: str = Query(...)):
     return get_stage_changes(stage)

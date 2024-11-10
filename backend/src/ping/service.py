@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from .models import House
 
-# Филтр который мне скинул Дима
+# Фильтр который мне скинул Дима
 def get_houses(db: Session, bounds: list, stage: str):
     return {
         "type": "FeatureCollection",

@@ -15,6 +15,7 @@ function MainPage() {
         fetchStreetData={server.getStreetData} 
         fetchMetroData={server.getMetroStationsData}
         fetchBusData={server.getBusStationsData}
+        fetchAnalyze={server.postAnalyzePhoto}
       />
     </div>
   )

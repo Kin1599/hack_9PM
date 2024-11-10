@@ -12,24 +12,35 @@ export default class SendServer{
     }
 
     //* Функция для получения данных об улицах
-    static async getStreetData(){
-        return await axios.get(baseUrl + '/streets')
+    static async getStreetData(bounds, stage){
+        const boundsString = bounds.join(',');
+        return await axios.get(`${baseUrl}/streets?bounds=${boundsString}&stage=${stage}`)
             .then(response => response.data)
             .catch(error => console.log('Error fetching streets', error));
     }
 
     //* Функция для получения данных о домах
-    static async getHousesData(){
-        return await axios.get(baseUrl + '/houses')
+    static async getHousesData(bounds, stage){
+        const boundsString = bounds.join(',');
+        return await axios.get(`${baseUrl}/houses?bounds=${boundsString}&stage=${stage}`)
             .then(response => response.data)
             .catch(error => console.log('Error fetching houses', error));
-        // const {swLat, swLng, neLat, neLng} = bounds;
-        // const response = await fetch(`/api/data?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`);
-        // const data = await response.json();
-        // return data.map(item => ({
-        //   coordinates: [item.latitude, item.longitude],
-        //   properties: { hintContent: item.name }
-        // }));
+    }
+
+    //* Функция для получения данных о станциях метро
+    static async getMetroStationsData(bounds){
+        const boundsString = bounds.join(',');
+        return await axios.get(`${baseUrl}/metro_exits?bounds=${boundsString}`)
+            .then(response => response.data)
+            .catch(error => console.log('Error fetching metro exits', error));
+    }
+  
+    //* Функция для получения данных об автобусных остановках
+    static async getBusStationsData(bounds){
+        const boundsString = bounds.join(',');
+        return await axios.get(`${baseUrl}/bus_stops?bounds=${boundsString}`)
+            .then(response => response.data)
+            .catch(error => console.log('Error fetching bus stops', error));
     }
 
     //* Функция для получения данных карты
@@ -37,6 +48,18 @@ export default class SendServer{
         return await axios.get(baseUrl + '/map')
             .then(response => response.data)
             .catch(error => console.log('Error fetching map', error));
+    }
+
+
+    //* Функция для отправки фото и описания для дальнейшего анализа
+    static async postAnalyzePhoto(formData){
+        return await axios.post(baseUrl + '/analyze_image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => response.data)
+            .catch(error => console.log('Error fetching analyze', error));
     }
 }
 

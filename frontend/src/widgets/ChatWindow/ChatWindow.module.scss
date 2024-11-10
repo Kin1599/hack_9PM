@@ -1,0 +1,126 @@
+.chatWindow {
+  width: 100%;
+  min-width: 550px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #f5f5f7;
+
+
+  &__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #62A744;
+    color: #FFF;
+  }
+
+  &__messages{
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__message {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+
+    p {
+      margin: 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 70%;
+    }
+
+    img {
+      max-width: 150px;
+      max-height: 150px;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+
+    /* Стили сообщений пользователя */
+    .chatWindow__message--user {
+      justify-content: flex-end;
+
+      p {
+        background-color: #0078d4;
+        color: white;
+        text-align: right;
+      }
+    }
+
+    /* Стили сообщений ассистента */
+    .chatWindow__message--assistant {
+      justify-content: flex-start;
+    }
+
+    .chatWindow__message--assistant p {
+      background-color: #e1e1e1;
+      color: #333;
+    }
+  }
+  
+  .chatForm {
+    padding: 10px;
+    border-top: 1px solid #e1e1e1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  textarea {
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    min-height: 50px;
+  }
+
+  .formControls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .fileLabel {
+    font-size: 20px;
+    cursor: pointer;
+    color: #0078d4;
+  }
+  
+  button {
+    padding: 5px 15px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #005bb5;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

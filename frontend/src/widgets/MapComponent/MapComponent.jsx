@@ -6,8 +6,9 @@ import magic from '../../shared/assets/magic.svg'
 import { YMaps, Map } from '@pbe/react-yandex-maps';
 import GeoDataLayer from '../../shared/modules/GeoDataLayer/GeoDataLayer';
 import MapControls from '../../shared/modules/MapControls/MapControls';
+import ChatWindow from '../ChatWindow/ChatWindow';
 
-function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBusData }) {
+function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBusData, fetchAnalyze }) {
   const mapContainerRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -15,6 +16,8 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBu
   const [currentStage, setCurrentStage] = useState('stage1');
   const [isSuggestion, setIsSuggestion] = useState(false);
   const apiKey = process.env.REACT_APP_YMAPS_API_KEY;
+
+  const [debounceTimer, setDebounceTimer] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -34,8 +37,21 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBu
   const handleBoundsChange = async () => {
     if (mapInstance){
       const bounds = mapInstance.getBounds();
+      const zoom = mapInstance.getZoom();
       if (bounds) {
-        await loadData(bounds, currentStage);
+        if(!debounceTimer){
+          console.log(bounds);
+          console.log("Запрос отправлен");
+        }
+
+        if (debounceTimer){
+          clearTimeout(debounceTimer);
+        }
+
+        const newDebounceTimer = setTimeout(async () => {
+          await loadData(bounds, currentStage, zoom);
+        }, 500);
+        setDebounceTimer(newDebounceTimer);
       }
     }
   };
@@ -45,8 +61,14 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBu
 
     if (mapInstance){
       const bounds = mapInstance.getBounds();
+      const zoom = mapInstance.getZoom();
       if (bounds) {
-        await loadData(bounds, stage);
+
+        if(debounceTimer){
+          clearTimeout(debounceTimer);
+        }
+
+        await loadData(bounds, stage, zoom);
       }
     }
   };
@@ -61,10 +83,13 @@ function MapComponent({ fetchHouseData, fetchMetroData, fetchStreetData, fetchBu
           <img src={magic} alt="Предложения что можно изменить с помощью фото" className={cl.button__img}/>
         </button>
       </div>
+      <div className={cl.map__chat}>
+        {isSuggestion && <ChatWindow onClose={() => setIsSuggestion(false)} onSubmit={fetchAnalyze}/>}
+      </div>
       {isVisible && (
         <YMaps query={{ apikey: apiKey }}>
           <Map
-            defaultState={{ center: [55.55357355512132, 37.49579152990711], zoom: 15 }}
+            defaultState={{ center: [55.55357355512132, 37.49579152990711], zoom: 16 }}
             width="100%"
             height="100dvh"
             instanceRef={map => setMapInstance(map)}
